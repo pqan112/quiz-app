@@ -1,0 +1,35 @@
+import fs from 'fs'
+import path from 'path'
+import { config } from 'dotenv'
+import { z } from 'zod'
+
+config({
+  path: '.env',
+})
+
+// Kiểm tra coi thử có file .env hay chưa
+if (!fs.existsSync(path.resolve('.env'))) {
+  console.log('Không tìm thấy file .env')
+  process.exit(1)
+}
+
+const configSchema = z.object({
+  PORT: z.string(),
+  DB_USERNAME: z.string(),
+  DB_PASSWORD: z.string(),
+  DB_NAME: z.string(),
+  USER_COLLECTION: z.string(),
+})
+
+// enableImplicitConversion: true ép kiểu cho giá trị khai báo trong .env
+const configServer = configSchema.safeParse(process.env)
+
+if (!configServer.success) {
+  console.log('Các giá trị khai báo trong file .env không hợp lệ')
+  console.error(configServer.error)
+  process.exit(1)
+}
+
+const envConfig = configServer.data
+
+export default envConfig
