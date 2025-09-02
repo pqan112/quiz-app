@@ -15,10 +15,11 @@ if (!fs.existsSync(path.resolve('.env'))) {
 
 const configSchema = z.object({
   PORT: z.string(),
+  APP_NAME: z.string(),
   DB_USERNAME: z.string(),
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
-  USER_COLLECTION: z.string(),
+  QUESTION_COLLECTION: z.string(),
 })
 
 // enableImplicitConversion: true ép kiểu cho giá trị khai báo trong .env
