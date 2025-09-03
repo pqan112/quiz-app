@@ -14,6 +14,6 @@ export const QuestionSchema = z.object({
 
 export const GetQuestionSchema = QuestionSchema
 
-export const CreateQuestionBodySchema = QuestionSchema.omit({ _id: true }).strict()
+export const CreateQuestionBodySchema = z.array(QuestionSchema.omit({ _id: true }).strict())
 
 export type CreateQuestionBodyType = z.infer<typeof CreateQuestionBodySchema>

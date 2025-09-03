@@ -8,9 +8,18 @@ export class QuestionRepo {
   constructor(private readonly mongoService: MongodbService) {}
 
   async create(body: CreateQuestionBodyType) {
-    const result = await this.mongoService.questionCollection.insertOne(body)
-    return this.mongoService.questionCollection.findOne({
-      _id: result.insertedId,
-    })
+    const data = body.map((item) => ({
+      ...item,
+      chap_id: new ObjectId(item.chap_id),
+    }))
+    const result = await this.mongoService.questionCollection.insertMany(data)
+    const insertedIds = Object.values(result.insertedIds)
+    return this.mongoService.questionCollection
+      .find({
+        _id: {
+          $in: insertedIds,
+        },
+      })
+      .toArray()
   }
 }
