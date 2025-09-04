@@ -1,5 +1,5 @@
 import { MongodbService } from 'src/shared/services/mongodb.service'
-import { CreateQuestionBodyType } from './question.model'
+import { CreateQuestionsBodyType, GetQuestionsQueryType } from './question.model'
 import { Injectable } from '@nestjs/common'
 import { ObjectId } from 'mongodb'
 
@@ -7,7 +7,24 @@ import { ObjectId } from 'mongodb'
 export class QuestionRepo {
   constructor(private readonly mongoService: MongodbService) {}
 
-  async create(body: CreateQuestionBodyType) {
+  async list(pagination: GetQuestionsQueryType) {
+    const skip = (pagination.page - 1) * pagination.limit
+    const limit = pagination.limit
+    const [data, total_items] = await Promise.all([
+      this.mongoService.questionCollection.find().skip(skip).limit(limit).toArray(),
+      this.mongoService.questionCollection.countDocuments(),
+    ])
+
+    return {
+      data,
+      total_items,
+      page: pagination.page,
+      limit: pagination.limit,
+      total_pages: Math.ceil(total_items / pagination.limit),
+    }
+  }
+
+  async create(body: CreateQuestionsBodyType) {
     const data = body.map((item) => ({
       ...item,
       chap_id: new ObjectId(item.chap_id),

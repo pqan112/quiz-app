@@ -1,4 +1,6 @@
 import { createZodDto } from 'nestjs-zod'
-import { CreateQuestionBodySchema } from './question.model'
+import { CreateQuestionsBodySchema, GetQuestionsQuerySchema } from './question.model'
 
-export class CreateQuestionBodyDTO extends createZodDto(CreateQuestionBodySchema) {}
+export class CreateQuestionsBodyDTO extends createZodDto(CreateQuestionsBodySchema) {}
+
+export class GetQuestionsQueryDTO extends createZodDto(GetQuestionsQuerySchema) {}

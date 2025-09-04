@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from 'src/app.module'
 import { ObjectId } from 'mongodb'
 import { MongodbService } from 'src/shared/services/mongodb.service'
-import { CreateQuestionBodySchema } from 'src/routes/question/question.model'
+import { CreateQuestionsBodySchema } from 'src/routes/question/question.model'
 
 async function seedInitialData() {
   const app = await NestFactory.createApplicationContext(AppModule)
@@ -28,7 +28,7 @@ async function seedInitialData() {
   // Validate + add timestamps
   const now = new Date()
   const validatedQuestions = questions.map((q) => {
-    const parsed = CreateQuestionBodySchema.parse(q)
+    const parsed = CreateQuestionsBodySchema.parse(q)
     return {
       ...parsed,
       created_at: now,
