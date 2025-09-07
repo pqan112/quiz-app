@@ -19,8 +19,8 @@ export class QuestionRepo {
       data,
       total_items,
       page: pagination.page,
-      limit: pagination.limit,
-      total_pages: Math.ceil(total_items / pagination.limit),
+      limit: limit,
+      total_pages: limit === 0 ? 1 : Math.ceil(total_items / limit),
     }
   }
 
