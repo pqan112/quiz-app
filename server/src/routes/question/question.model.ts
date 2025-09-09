@@ -10,7 +10,14 @@ export const QuestionSchema = z.object({
   reason: z.string(),
   created_at: z.date().optional(),
   updated_at: z.date().optional(),
+  deleted_at: z.date().optional().nullable(),
 })
+
+export const GetQuestionParamsSchema = z
+  .object({
+    questionId: z.string(),
+  })
+  .strict()
 
 export const GetQuestionsResDetail = QuestionSchema.extend({
   chap_id: z.instanceof(ObjectId),
@@ -34,7 +41,19 @@ export const GetQuestionsQuerySchema = z
 export const CreateQuestionsBodySchema = z.array(QuestionSchema.omit({ _id: true }).strict())
 export const CreateQuestionsResSchema = z.array(GetQuestionsResDetail)
 
+export const UpdateQuestionBodySchema = QuestionSchema.omit({ _id: true, created_at: true, updated_at: true }).strict()
+export const UpdateQuestionParamsSchema = GetQuestionParamsSchema
+
+export const DeleteQuestionParamsSchema = GetQuestionParamsSchema
+
 export type CreateQuestionsBodyType = z.infer<typeof CreateQuestionsBodySchema>
 export type CreateQuestionsResSchema = z.infer<typeof CreateQuestionsResSchema>
+
 export type GetQuestionsQueryType = z.infer<typeof GetQuestionsQuerySchema>
+export type GetQuestionParamsType = z.infer<typeof GetQuestionParamsSchema>
 export type GetQuestionsResType = z.infer<typeof GetQuestionsResSchema>
+
+export type UpdateQuestionBodyType = z.infer<typeof UpdateQuestionBodySchema>
+export type UpdateQuestionParamsType = z.infer<typeof UpdateQuestionParamsSchema>
+
+export type DeleteQuestionParamsType = z.infer<typeof DeleteQuestionParamsSchema>

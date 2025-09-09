@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { CreateQuestionsBodyType, GetQuestionsQueryType } from './question.model'
+import {
+  CreateQuestionsBodyType,
+  DeleteQuestionParamsType,
+  GetQuestionParamsType,
+  GetQuestionsQueryType,
+} from './question.model'
 import { QuestionRepo } from './question.repo'
 
 @Injectable()
@@ -15,7 +20,19 @@ export class QuestionService {
     return data
   }
 
+  findById(params: GetQuestionParamsType) {
+    return this.questionRepo.findById(params)
+  }
+
   create(body: CreateQuestionsBodyType) {
     return this.questionRepo.create(body)
+  }
+
+  updateById({ params, body }) {
+    return this.questionRepo.updateById({ params, body })
+  }
+
+  deleteById(params: DeleteQuestionParamsType) {
+    return this.questionRepo.deleteById(params)
   }
 }

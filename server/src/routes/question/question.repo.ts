@@ -1,6 +1,13 @@
 import { MongodbService } from 'src/shared/services/mongodb.service'
-import { CreateQuestionsBodyType, GetQuestionsQueryType } from './question.model'
-import { Injectable } from '@nestjs/common'
+import {
+  CreateQuestionsBodyType,
+  DeleteQuestionParamsType,
+  GetQuestionParamsType,
+  GetQuestionsQueryType,
+  UpdateQuestionBodyType,
+  UpdateQuestionParamsType,
+} from './question.model'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { ObjectId } from 'mongodb'
 
 @Injectable()
@@ -24,10 +31,26 @@ export class QuestionRepo {
     }
   }
 
+  findById(params: GetQuestionParamsType) {
+    const question = this.mongoService.questionCollection.findOne({
+      _id: new ObjectId(params.questionId),
+    })
+
+    if (question === null) {
+      throw new NotFoundException('error.question.not_found')
+    }
+
+    return question
+  }
+
   async create(body: CreateQuestionsBodyType) {
+    const now = new Date()
     const data = body.map((item) => ({
       ...item,
       chap_id: new ObjectId(item.chap_id),
+      created_at: now,
+      updated_at: now,
+      deleted_at: null,
     }))
     const result = await this.mongoService.questionCollection.insertMany(data)
     const insertedIds = Object.values(result.insertedIds)
@@ -38,5 +61,32 @@ export class QuestionRepo {
         },
       })
       .toArray()
+  }
+
+  updateById({ params, body }: { params: UpdateQuestionParamsType; body: UpdateQuestionBodyType }) {
+    return this.mongoService.questionCollection.updateOne(
+      {
+        _id: new ObjectId(params.questionId),
+      },
+      {
+        $set: {
+          ...body,
+          updated_at: new Date(),
+        },
+      },
+    )
+  }
+
+  deleteById(params: DeleteQuestionParamsType, isHard?: boolean) {
+    return isHard
+      ? this.mongoService.questionCollection.deleteOne({ _id: new ObjectId(params.questionId) })
+      : this.mongoService.questionCollection.updateOne(
+          { _id: new ObjectId(params.questionId), deleted_at: null },
+          {
+            $set: {
+              deleted_at: new Date(),
+            },
+          },
+        )
   }
 }
