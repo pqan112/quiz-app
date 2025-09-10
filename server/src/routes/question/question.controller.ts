@@ -3,6 +3,7 @@ import {
   CreateQuestionsBodyDTO,
   CreateQuestionsResDTO,
   DeleteQuestionParamsDTO,
+  GetQuestionDetailResDTO,
   GetQuestionParamsDTO,
   GetQuestionsQueryDTO,
   GetQuestionsResDTO,
@@ -11,6 +12,7 @@ import {
 } from './question.dto'
 import { QuestionService } from './question.service'
 import { ZodSerializerDto } from 'nestjs-zod'
+import { MessageResDTO } from 'src/shared/dtos/response.dto'
 
 @Controller('questions')
 export class QuestionController {
@@ -27,6 +29,7 @@ export class QuestionController {
   }
 
   @Get(':questionId')
+  @ZodSerializerDto(GetQuestionDetailResDTO)
   findById(@Param() params: GetQuestionParamsDTO) {
     return this.questionService.findById(params)
   }
@@ -38,11 +41,13 @@ export class QuestionController {
   }
 
   @Put(':questionId')
+  @ZodSerializerDto(MessageResDTO)
   updateById(@Param() params: UpdateQuestionParamsDTO, @Body() body: UpdateQuestionBodyDTO) {
     return this.questionService.updateById({ params, body })
   }
 
   @Delete(':questionId')
+  @ZodSerializerDto(MessageResDTO)
   deleteById(@Param() params: DeleteQuestionParamsDTO) {
     return this.questionService.deleteById(params)
   }

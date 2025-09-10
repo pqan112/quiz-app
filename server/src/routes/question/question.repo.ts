@@ -71,6 +71,7 @@ export class QuestionRepo {
       {
         $set: {
           ...body,
+          chap_id: new ObjectId(body.chap_id),
           updated_at: new Date(),
         },
       },

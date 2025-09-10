@@ -6,6 +6,7 @@ import {
   GetQuestionsQueryType,
 } from './question.model'
 import { QuestionRepo } from './question.repo'
+import { DeleteSuccessfully, UpdateSuccessfully } from './question.message'
 
 @Injectable()
 export class QuestionService {
@@ -28,11 +29,17 @@ export class QuestionService {
     return this.questionRepo.create(body)
   }
 
-  updateById({ params, body }) {
-    return this.questionRepo.updateById({ params, body })
+  async updateById({ params, body }) {
+    await this.questionRepo.updateById({ params, body })
+    return {
+      message: DeleteSuccessfully,
+    }
   }
 
-  deleteById(params: DeleteQuestionParamsType) {
-    return this.questionRepo.deleteById(params)
+  async deleteById(params: DeleteQuestionParamsType) {
+    await this.questionRepo.deleteById(params)
+    return {
+      message: UpdateSuccessfully,
+    }
   }
 }

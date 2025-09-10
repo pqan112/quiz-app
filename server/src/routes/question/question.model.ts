@@ -19,12 +19,12 @@ export const GetQuestionParamsSchema = z
   })
   .strict()
 
-export const GetQuestionsResDetail = QuestionSchema.extend({
+export const GetQuestionDetailResSchema = QuestionSchema.extend({
   chap_id: z.instanceof(ObjectId),
 })
 
 export const GetQuestionsResSchema = z.object({
-  data: z.array(GetQuestionsResDetail),
+  data: z.array(GetQuestionDetailResSchema),
   total_items: z.number(),
   page: z.number(),
   limit: z.number(),
@@ -39,7 +39,7 @@ export const GetQuestionsQuerySchema = z
   .strict()
 
 export const CreateQuestionsBodySchema = z.array(QuestionSchema.omit({ _id: true }).strict())
-export const CreateQuestionsResSchema = z.array(GetQuestionsResDetail)
+export const CreateQuestionsResSchema = z.array(GetQuestionDetailResSchema)
 
 export const UpdateQuestionBodySchema = QuestionSchema.omit({ _id: true, created_at: true, updated_at: true }).strict()
 export const UpdateQuestionParamsSchema = GetQuestionParamsSchema
@@ -52,6 +52,7 @@ export type CreateQuestionsResSchema = z.infer<typeof CreateQuestionsResSchema>
 export type GetQuestionsQueryType = z.infer<typeof GetQuestionsQuerySchema>
 export type GetQuestionParamsType = z.infer<typeof GetQuestionParamsSchema>
 export type GetQuestionsResType = z.infer<typeof GetQuestionsResSchema>
+export type GetQuestionDetailResType = z.infer<typeof GetQuestionDetailResSchema>
 
 export type UpdateQuestionBodyType = z.infer<typeof UpdateQuestionBodySchema>
 export type UpdateQuestionParamsType = z.infer<typeof UpdateQuestionParamsSchema>
