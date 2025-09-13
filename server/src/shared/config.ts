@@ -20,6 +20,11 @@ const configSchema = z.object({
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
   QUESTION_COLLECTION: z.string(),
+
+  ACCESS_TOKEN_SECRET: z.string(),
+  REFRESH_TOKEN_SECRET: z.string(),
+  ACCESS_TOKEN_EXPIRES_IN: z.string(),
+  REFRESH_TOKEN_EXPIRES_IN: z.string(),
 })
 
 // enableImplicitConversion: true ép kiểu cho giá trị khai báo trong .env
