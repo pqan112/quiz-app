@@ -20,6 +20,7 @@ const configSchema = z.object({
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
   QUESTION_COLLECTION: z.string(),
+  USER_COLLECTION: z.string(),
 
   ACCESS_TOKEN_SECRET: z.string(),
   REFRESH_TOKEN_SECRET: z.string(),

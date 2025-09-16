@@ -1,5 +1,7 @@
+import { ObjectId } from 'mongodb'
+
 export interface TokenPayloadCreate {
-  userId: number
+  userId: ObjectId
 }
 
 export interface TokenPayload extends TokenPayloadCreate {

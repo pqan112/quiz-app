@@ -9,7 +9,11 @@ export class MongodbService {
     private readonly db: Db,
   ) {}
 
-  get questionCollection(): Collection<any> {
+  get questionCollection(): Collection {
     return this.db.collection(envConfig.QUESTION_COLLECTION)
+  }
+
+  get userCollection(): Collection {
+    return this.db.collection(envConfig.USER_COLLECTION)
   }
 }

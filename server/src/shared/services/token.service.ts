@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { v4 as uuidv4 } from 'uuid'
 import envConfig from '../config'
-import { TokenPayload } from 'src/shared/types/jwt.type'
+import { TokenPayload, TokenPayloadCreate } from 'src/shared/types/jwt.type'
 
 @Injectable()
 export class TokenService {
@@ -10,7 +10,7 @@ export class TokenService {
 
   // tạo 1 token cùng 1 payload và tại cùng 1 thời điểm sẽ bị trùng token
   // -> dùng uuid để tạo payload khác nhau
-  signAccessToken(payload: TokenPayload) {
+  signAccessToken(payload: TokenPayloadCreate) {
     return this.jwtService.sign(
       { ...payload, uuid: uuidv4() },
       {
@@ -21,7 +21,7 @@ export class TokenService {
     )
   }
 
-  signRefreshToken(payload: TokenPayload) {
+  signRefreshToken(payload: TokenPayloadCreate) {
     return this.jwtService.sign(
       { ...payload, uuid: uuidv4() },
       {
