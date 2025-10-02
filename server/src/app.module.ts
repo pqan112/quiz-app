@@ -7,10 +7,11 @@ import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import CustomZodValidationPipe from './shared/pipes/custom-zod-validator.pipe'
 import { ZodSerializerInterceptor } from 'nestjs-zod'
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter'
-import { TransformInterceptor } from './shared/interceptors/transform.interceptor'
+import { AuthModule } from './routes/auth/auth.module'
+import { UserModule } from './routes/user/user.module'
 
 @Module({
-  imports: [SharedModule, QuestionModule],
+  imports: [SharedModule, QuestionModule, AuthModule, UserModule],
   controllers: [AppController],
   providers: [
     AppService,

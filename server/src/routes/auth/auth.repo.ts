@@ -16,6 +16,7 @@ export class AuthRepo {
     return this.mongoService.userCollection.insertOne({
       email,
       password,
+      created_at: new Date(),
     })
   }
 

@@ -27,7 +27,7 @@ export class AuthService {
 
     const decodedRefreshToken = await this.tokenService.verifyRefreshToken(refreshToken)
     await this.authRepo.updateUserById({
-      user_id: payload.userId,
+      user_id: payload.userId.toString(),
       refresh_token: refreshToken,
       rft_expires_at: new Date(decodedRefreshToken.exp * 1000),
     })
