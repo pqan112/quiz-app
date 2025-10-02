@@ -4,6 +4,7 @@ import { SharedUserRepo } from 'src/shared/repo/shared-user.repo'
 import { EmailNotFoundException, IncorrectPasswordException } from '../auth/auth.message'
 import { HashingService } from 'src/shared/services/hashing.service'
 import { UserRepo } from './user.repo'
+import { UserNotFoundException } from './user.message'
 
 @Injectable()
 export class UserService {
@@ -13,22 +14,20 @@ export class UserService {
     private readonly hashingService: HashingService,
   ) {}
 
-  async update(body: UpdateUserBodyType) {
-    const { email, password } = body
-    const user = await this.sUserRepo.findUserByEmail(email)
+  async getUserById(userId: string) {
+    const user = await this.sUserRepo.findUserById(userId)
     if (!user) {
-      throw EmailNotFoundException
+      throw UserNotFoundException
     }
+    return user
+  }
 
-    const isPasswordMatch = await this.hashingService.compare(password, user.password)
-    if (!isPasswordMatch) {
-      throw IncorrectPasswordException
+  async updateUserById(userId: string, body: UpdateUserBodyType) {
+    const user = await this.sUserRepo.findUserById(userId)
+    if (!user) {
+      throw UserNotFoundException
     }
-
-    const hashedPassword = await this.hashingService.hash(password)
-
-    await this.userRepo.update(user._id.toString(), { ...body, password: hashedPassword })
-
+    await this.userRepo.update(userId, { ...body })
     return {
       message: 'Update user successfully',
     }

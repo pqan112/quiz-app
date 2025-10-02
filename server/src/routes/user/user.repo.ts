@@ -7,10 +7,10 @@ import { ObjectId } from 'mongodb'
 export class UserRepo {
   constructor(private readonly mongoService: MongodbService) {}
 
-  async update(user_id: string, body: UpdateUserBodyType) {
+  async update(userId: string, body: UpdateUserBodyType) {
     return this.mongoService.userCollection.updateOne(
       {
-        _id: new ObjectId(user_id),
+        _id: new ObjectId(userId),
       },
       {
         $set: {

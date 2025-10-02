@@ -7,6 +7,7 @@ import { APP_GUARD } from '@nestjs/core'
 import { AccessTokenGuard } from './guards/access-token.guard'
 import { HashingService } from './services/hashing.service'
 import { SharedUserRepo } from './repo/shared-user.repo'
+import { AuthenticationGuard } from './guards/authentication.guard'
 
 const sharedServices = [MongodbService, TokenService, HashingService, SharedUserRepo]
 
@@ -14,10 +15,11 @@ const sharedServices = [MongodbService, TokenService, HashingService, SharedUser
 @Module({
   providers: [
     ...sharedServices,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AccessTokenGuard,
-    // },
+    AccessTokenGuard,
+    {
+      provide: APP_GUARD,
+      useClass: AuthenticationGuard,
+    },
   ],
   exports: sharedServices,
   imports: [MongodbModule, JwtModule],
