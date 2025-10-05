@@ -31,7 +31,6 @@ export class AuthenticationGuard implements CanActivate {
     }
 
     try {
-      console.log('context', context)
       const result = await guard.canActivate(context)
       if (!result) {
         throw new UnauthorizedException()

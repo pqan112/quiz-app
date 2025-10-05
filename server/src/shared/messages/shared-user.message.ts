@@ -1,4 +1,4 @@
-import { UnprocessableEntityException } from '@nestjs/common'
+import { NotFoundException, UnprocessableEntityException } from '@nestjs/common'
 
 export const EmailNotFoundException = new UnprocessableEntityException([
   {
@@ -13,3 +13,5 @@ export const IncorrectPasswordException = new UnprocessableEntityException([
     message: 'Error.password.incorrect',
   },
 ])
+
+export const UserNotFoundException = new NotFoundException('Error.user.not_found')

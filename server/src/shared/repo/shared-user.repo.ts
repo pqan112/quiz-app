@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { MongodbService } from '../services/mongodb.service'
 import { ObjectId } from 'mongodb'
+import { UpdateUserBodyType } from '../models/user.model'
 
 @Injectable()
 export class SharedUserRepo {
@@ -16,5 +17,19 @@ export class SharedUserRepo {
     return this.mongoService.userCollection.findOne({
       email,
     })
+  }
+
+  updateUserById(userId: string, body: UpdateUserBodyType) {
+    return this.mongoService.userCollection.updateOne(
+      {
+        _id: new ObjectId(userId),
+      },
+      {
+        $set: {
+          ...body,
+          updated_at: new Date(),
+        },
+      },
+    )
   }
 }

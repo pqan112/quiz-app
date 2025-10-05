@@ -1,5 +1,5 @@
-import { UserSchema } from 'src/shared/models/auth.model'
 import z from 'zod'
+import { UserSchema } from './auth.model'
 
 export const UpdateUserBodySchema = UserSchema.pick({
   age: true,

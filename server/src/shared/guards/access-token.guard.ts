@@ -7,7 +7,6 @@ export class AccessTokenGuard implements CanActivate {
   constructor(private readonly tokenService: TokenService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest()
-    console.log(request.headers.authorization)
 
     const accessToken = request.headers.authorization?.split(' ')[1]
     if (!accessToken) {

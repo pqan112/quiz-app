@@ -4,10 +4,10 @@ import { UpdateUserBodyType } from 'src/shared/models/user.model'
 import { SharedUserRepo } from 'src/shared/repo/shared-user.repo'
 
 @Injectable()
-export class UserService {
+export class MeService {
   constructor(private readonly sUserRepo: SharedUserRepo) {}
 
-  async getUserById(userId: string) {
+  async getMe(userId: string) {
     const user = await this.sUserRepo.findUserById(userId)
     if (!user) {
       throw UserNotFoundException
@@ -15,7 +15,7 @@ export class UserService {
     return user
   }
 
-  async updateUserById(userId: string, body: UpdateUserBodyType) {
+  async updateMe(userId: string, body: UpdateUserBodyType) {
     const user = await this.sUserRepo.findUserById(userId)
     if (!user) {
       throw UserNotFoundException

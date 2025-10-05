@@ -1,5 +1,5 @@
 import { createZodDto } from 'nestjs-zod'
-import { GetUserParamsSchema, UpdateUserBodySchema } from './user.model'
+import { GetUserParamsSchema, UpdateUserBodySchema } from '../models/user.model'
 
 export class UpdateUserBodyDTO extends createZodDto(UpdateUserBodySchema) {}
 
